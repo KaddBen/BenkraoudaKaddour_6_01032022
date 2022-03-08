@@ -6,7 +6,86 @@
     background-color: #FAFAFA;
     height: 300px;
     margin: 0 100px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
+.photograph-header img {
+    position: absolute;
+    left: -25% ;
+    top: -42%;
+    position: absolute;
+    width: 300px;
+    height: 400px;
+text-align: center;  
+}
+.photograph-header div {
+   display: flex; 
+   flex-direction: column; 
+   gap: 1rem;
+}
+
+.photograph-header  h2 {
+    color: #D3573C;
+    font-size: 36px;
+}
+.photograph-header :nth-child(1) {
+ order: 2;
+} 
+
+.photograph-header :nth-child(2) {
+ order: 3;
+}
+.photograph-header :nth-child(3) {
+ order: 1;
+}
+.photographer_section2 img {
+
+    width:    250px;
+    height: 250px; 
+     
+  
+  }
+  .photographer_section2 div {
+      
+      justify-self: center;
+  
+  }
+  .photographer_section2 video {
+      width: 250px;
+      height: 250px;
+  
+  }
+  .photographer_section2 source {
+      
+      
+
+  }
+  
+  .container_img {
+      position: relative;
+      height: 200px;
+      width: 200px;
+     border-radius: 50%;
+     overflow: hidden !important;
+  }
+
+  .like_container {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+  }
+
+  .like_number {
+    margin-right: 0.5rem;
+  }
+
+  .fa-solid.fa-heart {
+
+    color: #901C1C;
+  }
+
 
 .contact_button {
     font-size: 20px;
@@ -74,3 +153,76 @@ form input {
     border: none;
     border-radius: 5px;
 }
+
+.select_container {
+    margin: 50px 100px;
+    
+}
+
+.select_menu {
+    position: relative;
+    width: 165px;
+    height: 50px ;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5%;   
+    background-color: #901C1C;
+    color: white;
+    appearance: none;
+    font-weight: bold; 
+    padding-left: 1rem;
+    z-index: 0;
+    visibility: visible;
+}
+
+select option {
+    z-index: 0 !important;
+}
+
+.select_checked {
+    z-index: 9;
+    position: relative;
+    width: 120px;
+    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 4%;
+    background-color:#901C1C;
+    margin-left: 4rem;
+    visibility:hidden;
+
+}
+
+.select_checked div{
+
+    font-weight: bold;
+    color: white;
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+.select_checked div:hover{
+    color: #f5abab;
+
+    }
+
+.div_select {
+    position: relative;
+}
+.div_select::after {
+        content: "";
+        position: absolute;
+        top: 2rem;
+        right: 0;
+       margin-right: -7%;
+        width: 140px;
+        height: 1px;
+        background-color: white;
+        }
+
+  
