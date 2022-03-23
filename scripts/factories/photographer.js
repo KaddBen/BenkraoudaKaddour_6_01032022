@@ -1,5 +1,5 @@
 function photographerFactory(data) {
-    const { name, portrait, city, country, tagline, price,image, utilisateur } = data;
+    const { name, portrait, city, country, tagline, price,id, utilisateur } = data;
 
     const picture = `assets/photographers/${portrait}`;
 
@@ -8,7 +8,8 @@ function photographerFactory(data) {
         const divImg = document.createElement('div');
         divImg.setAttribute("class", "container_img");
         const linkPhotographer = document.createElement('a');
-        linkPhotographer.setAttribute("href", "/photographer.html");
+        linkPhotographer.setAttribute("href", `/photographer.html?id=${id}`);
+        linkPhotographer.setAttribute("name", name);
         const img = document.createElement( 'img' );
         img.setAttribute("src", picture)
         const h2 = document.createElement( 'h2' );
@@ -23,13 +24,17 @@ function photographerFactory(data) {
         money.setAttribute("class", "price");
         money.textContent = price + "€" + "/jour";
         divImg.appendChild(img);
-        article.appendChild(divImg);
-        article.appendChild(h2);
+        linkPhotographer.appendChild(divImg);
+        linkPhotographer.appendChild(h2);
+        article.appendChild(linkPhotographer);
         article.appendChild(location);
         article.appendChild(description);
         article.appendChild(money);
-        linkPhotographer.appendChild(article)
-        return(linkPhotographer);
+        const dataPhotograph = {
+             articles : article,
+             link : linkPhotographer
+        }
+        return(article);
     }
 
 function greyData(info) {
@@ -47,6 +52,7 @@ function greyData(info) {
     description.textContent = tagline;       
     const img = document.createElement( 'img' );
     img.setAttribute("src", picture1); 
+    img.setAttribute("alt", name); 
     const divImg = document.createElement('div');
     divImg.setAttribute("class", "container_img"); 
     divImg.appendChild(img);
@@ -59,13 +65,15 @@ function greyData(info) {
     }
   return(utilisateur);
 }
-function displayMedia(media) {
+function displayMedia(media, user) {
 
-    const {image, likes, title, video } = media;
-    const name = localStorage.getItem("name");
+    const {image, likes, title, video, id} = media;
+    const { name } = user;
+   
    
    
     const divImg = document.createElement('div');
+    divImg.setAttribute("class", "media")
     const divLikes = document.createElement('div');
     divLikes.setAttribute("class", "like_container")
     const spanLikes = document.createElement('span');
@@ -81,12 +89,18 @@ function displayMedia(media) {
             const video1 = `assets/images/${name}/${video}`;
             const vid = document.createElement( 'video' );
            vid.setAttribute("src", video1 );
+           vid.setAttribute("id", id);
+           vid.setAttribute("name", "img_photographer" );
+           vid.setAttribute("class", "video_photographer");
             divImg.appendChild(vid);
         }
      else {
         const picture2 = `assets/images/${name}/${image}`;
-        const img = document.createElement( 'img' );
+        let img = document.createElement( 'img' );
         img.setAttribute("src", picture2);
+        img.setAttribute("id", id );
+        img.setAttribute("name", "img_photographer" );
+        img.setAttribute("href", `photographer.html?id=${id}`)
         divImg.appendChild(img);
     }
     divHeart.appendChild(spanLikes1);

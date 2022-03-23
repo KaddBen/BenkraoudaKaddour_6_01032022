@@ -8,6 +8,10 @@ body {
 a {
     text-decoration: none;
     color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -55,20 +59,30 @@ h2 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
 .photographer_section article h2 {
     color: #D3573C;
     font-size: 36px;
 }
+
+.container_img {
+    position: relative;
+    height: 200px;
+    width: 200px;
+   border-radius: 50%;
+   overflow: hidden !important;
+}
+
 .photographer_section article .container_img img {
     position: absolute;
-    left: -25% ;
-    top: -42%;
-    position: absolute;
-    width: 300px;
-    height: 400px;
+    top: 0;
+  left: 0;
+    width: 200px;
+    height: 200px;
 text-align: center;
+object-fit: cover;
 }
 
 .location { 

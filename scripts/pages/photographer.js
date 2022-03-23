@@ -409,7 +409,6 @@ const medias = [
         "date": "2019-07-02",
         "price": 60
     },
-
     {
         "id": 52343416,
         "photographerId": 195,
@@ -450,7 +449,7 @@ const medias = [
         "id": 235234343,
         "photographerId": 195,
         "title": "Adventure Door, India",
-        "image": "Travel_Adventure_Door.jpg",
+        "image": "Sport_Next_Hold.jpg",
         "likes": 63,
         "date": "2019-06-26",
         "price": 60
@@ -604,95 +603,485 @@ const medias = [
 return ({
     medias: [...medias]})
 };
+         
+const queryUrlId = window.location.search;               
+const idSearch = new URLSearchParams(queryUrlId);
+const id = idSearch.get("id");
 
-let a = document.querySelectorAll("a");   
-        a.forEach((link) => {
-    link.addEventListener("click", test ); 
+const  { photographers } = getPhotographers();
+const responseId =  photographers.find((photographer) => photographer.id.toString() === id);
+ const userSection = document.querySelector(".photograph-header");
+ const userCard =  photographerFactory("none").greyData(responseId);
+  const { image, info} = userCard;
+  userSection.appendChild(image);
+  userSection.appendChild(info);  
 
-    function test() {
-        localStorage.clear()
-        const { photographers } = getPhotographers(); 
-        console.log(userSection2);    
-        photographers.forEach((photographer) => {
-            if (photographer.name == link.childNodes[0].childNodes[1].textContent.toString()) {
-            localStorage.setItem("name", photographer.name); 
-            localStorage.setItem("city", photographer.city); 
-            localStorage.setItem("country", photographer.country); 
-            localStorage.setItem("tagline", photographer.tagline); 
-            localStorage.setItem("price", photographer.price); 
-            localStorage.setItem("id", photographer.id); 
-            localStorage.setItem("portrait", photographer.portrait); 
-            
-            }    
-             else {
-            console.log("erreur");
-          }  
-        });
-          };
-        });
-function bj(bonjour) {
-   
-    console.log(userSection2)
-        userSection2.appendChild(bonjour);
-}
-        async function displaygreyData() {  
-            const greyInfo = {
-                name: localStorage.getItem("name"),
-                city: localStorage.getItem("city"),
-                country: localStorage.getItem("country"),
-                tagline: localStorage.getItem("tagline"),
-                price: localStorage.getItem("price"),
-                id: localStorage.getItem("id"),
-                portrait: localStorage.getItem("portrait"),
-            }
-            const userSection = document.querySelector(".photograph-header");
-            const userCard =  photographerFactory(a).greyData(greyInfo);
-             const { image, info} = userCard;
-             userSection.appendChild(image);
-             userSection.appendChild(info);  
-            }
-            const { medias } = getMedia();
-            const userSection2 = document.querySelector(".photographer_section2");
 
-            medias.forEach((media) => {
+  const userSection2 = document.querySelector(".photographer_section2")
+  const { medias } = getMedia();
+  medias.forEach((media) => {
               
-                if (media.photographerId == localStorage.getItem("id")) {
-               const userMedia = photographerFactory(a).displayMedia(media);   
-               userSection2.appendChild(userMedia);      
-                    
+    if (media.photographerId == id) {
+
+   const userMedia = photographerFactory("none").displayMedia(media, responseId);   
+   userSection2.appendChild(userMedia);      
+        
+    }
+
+  
+  });
+  
+
+  let SectionAllImg = document.getElementsByName("img_photographer");
+console.log(SectionAllImg[0]);
+ SectionAllImg.forEach((img) => {
+img.addEventListener("click", () => {
+ let imgId = img.id;
+let mediaId = medias.find((media) => media.id.toString() === imgId );
+ const {name} = responseId;
+ const { image, id, video } = mediaId;
+ const lightBox = document.querySelector(".lightbox");
+ if (video) {
+    const newVid = document.createElement('video');
+    newVid.setAttribute("controls", "");
+    newVid.setAttribute("class", "lightbox_vid");
+    newVid.setAttribute("id", id);
+   const newsrc = document.createElement('source');
+    newsrc.setAttribute("src", `assets/images/${name}/${video}`);
+    newsrc.setAttribute("type", "video/mp4");
+    newVid.appendChild(newsrc);
+    lightBox.appendChild(newVid);
+    lightBox.style.display = "block";  
+    window.history.pushState("", "", `photographer.html?id=${id}`);   
+ }
+
+ else {
+ const displayImg = document.createElement('img');
+ displayImg.setAttribute("src", `assets/images/${name}/${image}` );
+ displayImg.setAttribute("class", "lightbox_img");
+ displayImg.setAttribute("id", id);
+ lightBox.appendChild(displayImg);
+ lightBox.style.display = "block";
+ window.history.pushState("", "", `photographer.html?id=${id}`);
+ }
+ 
+})
+ });
+ 
+ 
+    let i;
+    function next() {
+       for (i= 0; i < SectionAllImg.length+1; i++) {
+        const queryUrlId = window.location.search;         
+        const idSearch = new URLSearchParams(queryUrlId);
+        const id = idSearch.get("id");
+           const lightBox = document.querySelector(".lightbox");
+           console.log(SectionAllImg.length);
+           if (SectionAllImg[i].id === id) {
+     
+            console.log(i);
+            if (i === SectionAllImg.length-1) { 
+                i = -1;
+            }
+            if (SectionAllImg[i+1].className === "video_photographer") {
+                const nextVid = SectionAllImg[i+1];
+            const newVid = document.createElement('video');
+            newVid.setAttribute("controls", "");
+            newVid.setAttribute("class", "lightbox_vid");
+            newVid.setAttribute("id", nextVid.id);
+           const newsrc = document.createElement('source');
+            newsrc.setAttribute("src", nextVid.src);
+            newsrc.setAttribute("type", "video/mp4");
+            newVid.appendChild(newsrc);
+            lightBox.appendChild(newVid);
+            const lightboxAllImg = document.querySelectorAll(".lightbox_img"); 
+            for (let o = 0; o < lightboxAllImg.length; o++) {                
+                const currentImg = lightboxAllImg[o];
+                currentImg.style.visibility = "hidden";
+                console.log(currentImg[o]);    
+              }            
+            window.history.pushState("", "", `photographer.html?id=${nextVid.id}`);
+            break;
+            }
+               
+        else {
+              const nextImg = SectionAllImg[i+1];
+              const newImg = document.createElement('img');
+              newImg.setAttribute("src", nextImg.src );
+              newImg.setAttribute("class", "lightbox_img");
+              newImg.setAttribute("id", nextImg.id);
+              lightBox.appendChild(newImg);
+              
+             
+              window.history.pushState("", "", `photographer.html?id=${nextImg.id}`);
+              
+            break;
+            }           
+       }
+    }
+}
+
+
+    function prev() {
+        for (i= 0; i < SectionAllImg.length+1; i++) {
+         const queryUrlId = window.location.search;         
+         const idSearch = new URLSearchParams(queryUrlId);
+         const id = idSearch.get("id");
+            const {name} = responseId;
+            const lightBox = document.querySelector(".lightbox");
+            console.log(SectionAllImg.length);
+            if (SectionAllImg[i].id === id) {
+             console.log(i);
+             if (i === 0) { 
+                 i = SectionAllImg.length;
+             }
+             if (SectionAllImg[i-1].className === "video_photographer") {
+                const prevVid = SectionAllImg[i-1];
+            const newVid = document.createElement('video');
+            newVid.setAttribute("controls", "");
+            newVid.setAttribute("class", "lightbox_vid");
+            newVid.setAttribute("id", prevVid.id);
+           const newsrc = document.createElement('source');
+            newsrc.setAttribute("src", prevVid.src);
+            newsrc.setAttribute("type", "video/mp4");
+            newVid.appendChild(newsrc);
+            lightBox.appendChild(newVid);
+            const lightboxAllImg = document.querySelectorAll(".lightbox_img"); 
+            for (let o = 0; o < lightboxAllImg.length; o++) {                
+                const currentImg = lightboxAllImg[o];
+                currentImg.style.visibility = "hidden";
+                console.log(currentImg[o]);    
+              }            
+            window.history.pushState("", "", `photographer.html?id=${prevVid.id}`);
+            break;
+            }
+
+            else {
+               const nextImg = SectionAllImg[i-1];
+               const newImg = document.createElement('img');
+               newImg.setAttribute("src", nextImg.src );
+               newImg.setAttribute("class", "lightbox_img");
+               newImg.setAttribute("id", nextImg.id);
+               lightBox.appendChild(newImg);
+               window.history.pushState("", "", `photographer.html?id=${nextImg.id}`);         
+               break;
+            }  
+              
+           }   
+        }
+     }
+     let nameForm = responseId.name.toString();
+     const name_form = document.querySelector('.form_h2');
+     name_form.innerHTML = "Contactez moi" + "<br>" + nameForm;
+
+    
+     const numberLikes = [];  
+     let totalSum = 0; 
+medias.forEach((media) => {
+  
+    if (media.photographerId == id) {
+     numberLikes.push(media.likes);
+    }
+
+});
+for (let i = 0; i < numberLikes.length; i++) {
+
+    totalSum += numberLikes[i];
+}
+
+const totalLikes = document.querySelector(".total_likes");
+const dailyPrice = document.querySelector(".daily_price");
+totalLikes.innerHTML = totalSum + " " + '<i class="fa-solid fa-heart"></i>';
+dailyPrice.innerHTML = responseId.price + "€ / jour";
+
+let div = document.querySelectorAll(".heart_container");
+div.forEach((div) => {
+
+   let child = div.childNodes[1];
+   console.log(child);
+
+   child.addEventListener("click", () => {
+
+    let likeNumber = div.childNodes[0];
+        
+            parseInt(likeNumber.textContent++); 
+            totalLikes.innerHTML =  parseInt(totalSum++) + " " + '<i class="fa-solid fa-heart"></i>';
+   })
+})
+const lightBox = document.querySelector(".lightbox");
+if (lightBox.display = "block") {
+
+    window.addEventListener("keydown", (e) => {
+if(e.keyCode === 37) {
+    function prev() {
+        for (i= 0; i < SectionAllImg.length+1; i++) {
+         const queryUrlId = window.location.search;         
+         const idSearch = new URLSearchParams(queryUrlId);
+         const id = idSearch.get("id");
+            const {name} = responseId;
+            const lightBox = document.querySelector(".lightbox");
+            console.log(SectionAllImg.length);
+            if (SectionAllImg[i].id === id) {
+             console.log(i);
+             if (i === 0) { 
+                 i = SectionAllImg.length;
+             }
+             if (SectionAllImg[i-1].className === "video_photographer") {
+                const prevVid = SectionAllImg[i-1];
+            const newVid = document.createElement('video');
+            newVid.setAttribute("controls", "");
+            newVid.setAttribute("class", "lightbox_vid");
+            newVid.setAttribute("id", prevVid.id);
+           const newsrc = document.createElement('source');
+            newsrc.setAttribute("src", prevVid.src);
+            newsrc.setAttribute("type", "video/mp4");
+            newVid.appendChild(newsrc);
+            lightBox.appendChild(newVid);
+            const lightboxAllImg = document.querySelectorAll(".lightbox_img"); 
+            for (let o = 0; o < lightboxAllImg.length; o++) {                
+                const currentImg = lightboxAllImg[o];
+                currentImg.style.visibility = "hidden";
+                console.log(currentImg[o]);    
+              }            
+            window.history.pushState("", "", `photographer.html?id=${prevVid.id}`);
+            break;
+            }
+else {
+               const nextImg = SectionAllImg[i-1];
+               const newImg = document.createElement('img');
+               newImg.setAttribute("src", nextImg.src );
+               newImg.setAttribute("class", "lightbox_img");
+               newImg.setAttribute("id", nextImg.id);
+               lightBox.appendChild(newImg);
+               window.history.pushState("", "", `photographer.html?id=${nextImg.id}`);      
+               break; 
+}    
+           }   
+        }
+     }
+         prev()
+        }
+
+    else if(e.keyCode === 39) {
+
+        function next() {
+            for (i= 0; i < SectionAllImg.length+1; i++) {
+             const queryUrlId = window.location.search;         
+             const idSearch = new URLSearchParams(queryUrlId);
+             const id = idSearch.get("id");
+                const {name} = responseId;
+                const lightBox = document.querySelector(".lightbox");
+                console.log(SectionAllImg.length);
+                if (SectionAllImg[i].id === id) {
+                 console.log(i);
+                 if (i === SectionAllImg.length-1) { 
+                     i = -1;
+                 }
+                 if (SectionAllImg[i+1].className === "video_photographer") {
+                    const nextVid = SectionAllImg[i+1];
+                const newVid = document.createElement('video');
+                newVid.setAttribute("controls", "");
+                newVid.setAttribute("class", "lightbox_vid");
+                newVid.setAttribute("id", nextVid.id);
+               const newsrc = document.createElement('source');
+                newsrc.setAttribute("src", nextVid.src);
+                newsrc.setAttribute("type", "video/mp4");
+                newVid.appendChild(newsrc);
+                lightBox.appendChild(newVid);
+                const allImg = document.querySelectorAll(".lightbox_img"); 
+                for (let o = 0; o < SectionAllImg.length; o++) {                
+                    const currentImg = allImg[o];
+                    currentImg.style.visibility = "hidden";
+                    console.log(currentImg[o]);    
+                  }            
+                window.history.pushState("", "", `photographer.html?id=${nextVid.id}`);
+                break;
+                }
+                else {
+                   const nextImg = SectionAllImg[i+1];
+                   const newImg = document.createElement('img');
+                   newImg.setAttribute("src", nextImg.src );
+                   newImg.setAttribute("class", "lightbox_img");
+                   newImg.setAttribute("id", nextImg.id);
+                   lightBox.appendChild(newImg);
+                   window.history.pushState("", "", `photographer.html?id=${nextImg.id}`);                    
+                   break;
                 }
                   
-              });
-              let dropdown = document.querySelector(".select_checked");
-              let select = document.querySelector(".select_menu");
-              
-              select.addEventListener("click", e => {
-                  e.preventDefault();
-                dropdown.style.visibility = 'visible';
+               }   
+            }
+         }
+         next();
+    }
+    }) 
+}
 
-              });
-select.addEventListener("click", e => {
-    e.preventDefault();
-    select.style.visibility = 'hidden';  
+  /* Custom Select */
+document.querySelectorAll('.select_container').forEach(setupSelector);
 
-})
-             let child = dropdown.childNodes;
-console.log(child);
-             child.forEach((option) => {
+function setupSelector(selector) {
+  selector.addEventListener('change', e => {
+    console.log('changed', e.target.value)
+  })
 
-                option.addEventListener("click",() => {                  
-let text = option.textContent;
-let op = document.querySelector("option");
-op.textContent = text;
-console.log(op);
+  selector.addEventListener('mousedown', e => {
+    if(window.innerWidth >= 420) {// override look for non mobile
+      e.preventDefault();
 
-                })
-             })
-              
+      const select = selector.children[1];
+      const dropDown = document.createElement('ul');
+      const arrowUp = document.createElement('i');
+      arrowUp.setAttribute("class", "fa-solid fa-angle-up");
+      dropDown.className = "selector-options";
+
+      [...select.children].forEach(option => {
+        const dropDownOption = document.createElement('li');
+        dropDownOption.setAttribute("class", "border_white_bottom");
+        dropDownOption.textContent = option.textContent;
+        dropDownOption.addEventListener('mousedown', (e) => {
+          e.stopPropagation();
+          select.value = option.value;
+          selector.value = option.value;
+          select.dispatchEvent(new Event('change'));
+          selector.dispatchEvent(new Event('change'));
+          dropDown.remove();
+        });
+       
+        dropDown.appendChild(dropDownOption);
+        dropDown.appendChild(arrowUp);
+       
+    
+      });
+
+      selector.appendChild(dropDown);
+      let allOption = document.querySelectorAll("option")
+      let allList = document.querySelectorAll(".border_white_bottom");
+      let lastOption = allList.item(allOption.length-1);
+      lastOption.setAttribute("class", "last_option")
+      // handle click out
+      document.addEventListener('click', (e) => {
+        if(!selector.contains(e.target)) {
+          dropDown.remove();
+        }
+      });
+    }
+  });
+} 
+
+let arPopular = [];
+let secondPhotagrapherSection = document.querySelector('.photographer_section2');
+let arrayMedia = Array.from(secondPhotagrapherSection.children);
+for(let item of arrayMedia){
+    let likeChildren = item.children[1].children[1].children[0].textContent;
+    let likeChildrenNumber = Number(likeChildren);
+    arPopular.push(likeChildrenNumber);
+}
+let select = document.querySelector('select');
+select.onchange = sortingValue;
+
+function sortingValue() {
+
+ let sortArPopular = arPopular.sort((a,b) => {
+            return a-b;           
+        })
+        console.log(sortArPopular);
+        let sortedArPopular = [];
+        sortArPopular.forEach((number) => {
+
+   
+       for (let z = 0; z < arrayMedia.length; z++) {
+       
+           const item = arrayMedia[z];
+           let likeChildren = item.children[1].children[1].children[0].textContent;
+           let likeChildrenNumber = Number(likeChildren);
+            if (number === likeChildrenNumber) {
+                
+               
             
-
+               sortedArPopular.push(item) 
+            }
+        }
+      
           
+});
+if (select.value === "1") {
+ secondPhotagrapherSection.append(...sortedArPopular.reverse());
+console.log(sortedArPopular);   
+}
+if (select.value === "2") {
 
+    let arDate = [];
+    let reverse = arDate.reverse();
+    let arArticle=[];
+  medias.forEach((media) => {
+for (let i = 0; i < SectionAllImg.length; i++) {
+    let idDate = SectionAllImg[i].id;
+    
 
+    if(media.id === Number(idDate)) {
 
+      let newDate = new Date(media.date);
+      arDate.push(media.date);  
 
+    }
+}
+  }) 
+  let sortDate = arDate.sort((a,b) => {
+    return new Date(a) - new Date(b);
+      });
+      medias.forEach((media) => {
+        for (let i = 0; i < sortDate.length; i++) {
+            let item = sortDate[i];
+            let dateMedia = media.date; 
+            console.log(dateMedia);     
+            if(dateMedia === item) { 
+                for (let i = 0; i < SectionAllImg.length; i++) {
+                    const bId = SectionAllImg[i].id;
+                    let mediaId = media.id;
+                    console.log(mediaId);
+                    let parentImg = SectionAllImg[i].parentNode;
+                    if (mediaId === Number(bId)) {
+                        console.log(bId);
+                        arArticle.push(parentImg); 
+                    }
+                }  
+             
+    
+            }
+        }
+      
+})
+secondPhotagrapherSection.appendChild(...arArticle);
+}
+
+let arTitle = [];     
+ 
+ 
+ for(let item of arrayMedia) {
+    let likeChildren = item.children[1].children[0].textContent;
+    arTitle.push(likeChildren);
+ }
+ let sorTitle = arTitle.sort();
+ let titleArticle = [];
+sorTitle.forEach((title) => {
+  for (let i = 0; i < arrayMedia.length; i++) {
+      const elementAr =arrayMedia[i].children[1].children[0].textContent;
+      
+  
+    if (title === elementAr) {
+       titleArticle.push(arrayMedia[i]); 
+    }
+}  
+})
+
+if (select.value === "3") {
+    secondPhotagrapherSection.append(...titleArticle);
+   console.log(titleArticle);   
+   }
+}
+
+ 
+
+       
+        
+     
