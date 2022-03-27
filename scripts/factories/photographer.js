@@ -2,7 +2,7 @@ function photographerFactory(data) {
     const { name, portrait, city, country, tagline, price,id, utilisateur } = data;
 
     const picture = `assets/photographers/${portrait}`;
-
+// Affiche chaque photographe dans la page d'index
     function getUserCardDOM() {
         const article = document.createElement( 'article' );
         const divImg = document.createElement('div');
@@ -30,13 +30,9 @@ function photographerFactory(data) {
         article.appendChild(location);
         article.appendChild(description);
         article.appendChild(money);
-        const dataPhotograph = {
-             articles : article,
-             link : linkPhotographer
-        }
         return(article);
     }
-
+//Affiche le résumé des informations concernant le photographe dans la page des photographes
 function greyData(info) {
     const { name, portrait, city, country, tagline } = info;
     const picture1 = `assets/photographers/${portrait}`;
@@ -65,6 +61,8 @@ function greyData(info) {
     }
   return(utilisateur);
 }
+
+//Affiche les videos ou images du photographe selectionné dans la page des photographes
 function displayMedia(media, user) {
 
     const {image, likes, title, video, id} = media;
@@ -74,6 +72,8 @@ function displayMedia(media, user) {
    
     const divImg = document.createElement('div');
     divImg.setAttribute("class", "media")
+    divImg.setAttribute("tabindex", "0")
+    divImg.setAttribute("onclick", "displayLightbox()")
     const divLikes = document.createElement('div');
     divLikes.setAttribute("class", "like_container")
     const spanLikes = document.createElement('span');
@@ -92,6 +92,7 @@ function displayMedia(media, user) {
            vid.setAttribute("id", id);
            vid.setAttribute("name", "img_photographer" );
            vid.setAttribute("class", "video_photographer");
+           vid.setAttribute("title", title);
             divImg.appendChild(vid);
         }
      else {
@@ -101,6 +102,7 @@ function displayMedia(media, user) {
         img.setAttribute("id", id );
         img.setAttribute("name", "img_photographer" );
         img.setAttribute("href", `photographer.html?id=${id}`)
+        img.setAttribute("alt", title)
         divImg.appendChild(img);
     }
     divHeart.appendChild(spanLikes1);
