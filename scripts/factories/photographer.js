@@ -73,7 +73,6 @@ function displayMedia(media, user) {
     const divImg = document.createElement('div');
     divImg.setAttribute("class", "media")
     divImg.setAttribute("tabindex", "0")
-    divImg.setAttribute("onclick", "displayLightbox()")
     const divLikes = document.createElement('div');
     divLikes.setAttribute("class", "like_container")
     const spanLikes = document.createElement('span');

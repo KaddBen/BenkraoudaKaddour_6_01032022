@@ -639,6 +639,7 @@ SectionAllImg.forEach((img) => {
     displayLightbox()
   })
 })
+
 let i
 
 /* Affiche le nom du photographe selectionné dans le formulaire d'envoi */
@@ -708,7 +709,6 @@ if ((lightBox.display = 'block')) {
         const arrowUp = document.createElement('i')
         arrowUp.setAttribute('class', 'fa-solid fa-angle-up')
         dropDown.className = 'selector-options'
-
         ;[...select.children].forEach((option) => {
           const dropDownOption = document.createElement('li')
           dropDownOption.setAttribute('class', 'border_white_bottom')
@@ -840,8 +840,9 @@ if ((lightBox.display = 'block')) {
   }
 
   /* Fonction affichant la lightbox */
-  function displayLightbox() {
-    SectionAllImg.forEach((img) => {
+  function displayLightbox() {}
+  SectionAllImg.forEach((img) => {
+    img.addEventListener('click', () => {
       let imgId = img.id
       let mediaId = medias.find((media) => media.id.toString() === imgId)
       const { name } = responseId
@@ -869,117 +870,117 @@ if ((lightBox.display = 'block')) {
         window.history.pushState('', '', `photographer.html?id=${id}`)
       }
     })
-  }
-  /* Fonction qui affiche l'image suivante dans la lightbox */
+  })
+}
+/* Fonction qui affiche l'image suivante dans la lightbox */
 
-  function next() {
-    for (i = 0; i < SectionAllImg.length + 1; i++) {
-      const queryUrlId = window.location.search
-      const idSearch = new URLSearchParams(queryUrlId)
-      const id = idSearch.get('id')
-      const lightBox = document.querySelector('.lightbox')
-      console.log(SectionAllImg.length)
-      if (SectionAllImg[i].id === id) {
-        console.log(i)
-        if (i === SectionAllImg.length - 1) {
-          i = -1
+function next() {
+  for (i = 0; i < SectionAllImg.length + 1; i++) {
+    const queryUrlId = window.location.search
+    const idSearch = new URLSearchParams(queryUrlId)
+    const id = idSearch.get('id')
+    const lightBox = document.querySelector('.lightbox')
+    console.log(SectionAllImg.length)
+    if (SectionAllImg[i].id === id) {
+      console.log(i)
+      if (i === SectionAllImg.length - 1) {
+        i = -1
+      }
+      if (SectionAllImg[i + 1].className === 'video_photographer') {
+        const nextVid = SectionAllImg[i + 1]
+        const newVid = document.createElement('video')
+        newVid.setAttribute('controls', '')
+        newVid.setAttribute('class', 'lightbox_vid')
+        newVid.setAttribute('id', nextVid.id)
+        const newsrc = document.createElement('source')
+        newsrc.setAttribute('src', nextVid.src)
+        newsrc.setAttribute('type', 'video/mp4')
+        newVid.appendChild(newsrc)
+        lightBox.appendChild(newVid)
+        const lightboxAllImg = document.querySelectorAll('.lightbox_img')
+        for (let o = 0; o < lightboxAllImg.length; o++) {
+          const currentImg = lightboxAllImg[o]
+          currentImg.style.visibility = 'hidden'
+          console.log(currentImg[o])
         }
-        if (SectionAllImg[i + 1].className === 'video_photographer') {
-          const nextVid = SectionAllImg[i + 1]
-          const newVid = document.createElement('video')
-          newVid.setAttribute('controls', '')
-          newVid.setAttribute('class', 'lightbox_vid')
-          newVid.setAttribute('id', nextVid.id)
-          const newsrc = document.createElement('source')
-          newsrc.setAttribute('src', nextVid.src)
-          newsrc.setAttribute('type', 'video/mp4')
-          newVid.appendChild(newsrc)
-          lightBox.appendChild(newVid)
-          const lightboxAllImg = document.querySelectorAll('.lightbox_img')
-          for (let o = 0; o < lightboxAllImg.length; o++) {
-            const currentImg = lightboxAllImg[o]
-            currentImg.style.visibility = 'hidden'
-            console.log(currentImg[o])
-          }
-          const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
-          for (let o = 0; o < lightboxAllVideo.length - 1; o++) {
-            const lightboxVideo = lightboxAllVideo[o]
-            lightboxVideo.style.visibility = 'hidden'
-          }
-          window.history.pushState('', '', `photographer.html?id=${nextVid.id}`)
-          break
-        } else {
-          const nextImg = SectionAllImg[i + 1]
-          const newImg = document.createElement('img')
-          const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
-          for (let o = 0; o < lightboxAllVideo.length; o++) {
-            const lightboxVideo = lightboxAllVideo[o]
-            lightboxVideo.style.visibility = 'hidden'
-          }
-          newImg.setAttribute('src', nextImg.src)
-          newImg.setAttribute('class', 'lightbox_img')
-          newImg.setAttribute('id', nextImg.id)
-          lightBox.appendChild(newImg)
-          window.history.pushState('', '', `photographer.html?id=${nextImg.id}`)
-          break
+        const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
+        for (let o = 0; o < lightboxAllVideo.length - 1; o++) {
+          const lightboxVideo = lightboxAllVideo[o]
+          lightboxVideo.style.visibility = 'hidden'
         }
+        window.history.pushState('', '', `photographer.html?id=${nextVid.id}`)
+        break
+      } else {
+        const nextImg = SectionAllImg[i + 1]
+        const newImg = document.createElement('img')
+        const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
+        for (let o = 0; o < lightboxAllVideo.length; o++) {
+          const lightboxVideo = lightboxAllVideo[o]
+          lightboxVideo.style.visibility = 'hidden'
+        }
+        newImg.setAttribute('src', nextImg.src)
+        newImg.setAttribute('class', 'lightbox_img')
+        newImg.setAttribute('id', nextImg.id)
+        lightBox.appendChild(newImg)
+        window.history.pushState('', '', `photographer.html?id=${nextImg.id}`)
+        break
       }
     }
   }
+}
 
-  /* Fonction qui affiche l'image précédente dans la lightbox */
+/* Fonction qui affiche l'image précédente dans la lightbox */
 
-  function prev() {
-    for (i = 0; i < SectionAllImg.length + 1; i++) {
-      const queryUrlId = window.location.search
-      const idSearch = new URLSearchParams(queryUrlId)
-      const id = idSearch.get('id')
+function prev() {
+  for (i = 0; i < SectionAllImg.length + 1; i++) {
+    const queryUrlId = window.location.search
+    const idSearch = new URLSearchParams(queryUrlId)
+    const id = idSearch.get('id')
 
-      const lightBox = document.querySelector('.lightbox')
-      console.log(SectionAllImg.length)
-      if (SectionAllImg[i].id === id) {
-        console.log(i)
-        if (i === 0) {
-          i = SectionAllImg.length
+    const lightBox = document.querySelector('.lightbox')
+    console.log(SectionAllImg.length)
+    if (SectionAllImg[i].id === id) {
+      console.log(i)
+      if (i === 0) {
+        i = SectionAllImg.length
+      }
+      if (SectionAllImg[i - 1].className === 'video_photographer') {
+        const prevVid = SectionAllImg[i - 1]
+        const newVid = document.createElement('video')
+        newVid.setAttribute('controls', '')
+        newVid.setAttribute('class', 'lightbox_vid')
+        newVid.setAttribute('id', prevVid.id)
+        const newsrc = document.createElement('source')
+        newsrc.setAttribute('src', prevVid.src)
+        newsrc.setAttribute('type', 'video/mp4')
+        newVid.appendChild(newsrc)
+        lightBox.appendChild(newVid)
+        const lightboxAllImg = document.querySelectorAll('.lightbox_img')
+        for (let o = 0; o < lightboxAllImg.length; o++) {
+          const currentImg = lightboxAllImg[o]
+          currentImg.style.visibility = 'hidden'
         }
-        if (SectionAllImg[i - 1].className === 'video_photographer') {
-          const prevVid = SectionAllImg[i - 1]
-          const newVid = document.createElement('video')
-          newVid.setAttribute('controls', '')
-          newVid.setAttribute('class', 'lightbox_vid')
-          newVid.setAttribute('id', prevVid.id)
-          const newsrc = document.createElement('source')
-          newsrc.setAttribute('src', prevVid.src)
-          newsrc.setAttribute('type', 'video/mp4')
-          newVid.appendChild(newsrc)
-          lightBox.appendChild(newVid)
-          const lightboxAllImg = document.querySelectorAll('.lightbox_img')
-          for (let o = 0; o < lightboxAllImg.length; o++) {
-            const currentImg = lightboxAllImg[o]
-            currentImg.style.visibility = 'hidden'
-          }
-          const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
-          for (let o = 0; o < lightboxAllVideo.length - 1; o++) {
-            const lightboxVideo = lightboxAllVideo[o]
-            lightboxVideo.style.visibility = 'hidden'
-          }
-          window.history.pushState('', '', `photographer.html?id=${prevVid.id}`)
-          break
-        } else {
-          const prevImg = SectionAllImg[i - 1]
-          const newImg = document.createElement('img')
-          const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
-          for (let o = 0; o < lightboxAllVideo.length; o++) {
-            const lightboxVideo = lightboxAllVideo[o]
-            lightboxVideo.style.visibility = 'hidden'
-          }
-          newImg.setAttribute('src', prevImg.src)
-          newImg.setAttribute('class', 'lightbox_img')
-          newImg.setAttribute('id', prevImg.id)
-          lightBox.appendChild(newImg)
-          window.history.pushState('', '', `photographer.html?id=${prevImg.id}`)
-          break
+        const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
+        for (let o = 0; o < lightboxAllVideo.length - 1; o++) {
+          const lightboxVideo = lightboxAllVideo[o]
+          lightboxVideo.style.visibility = 'hidden'
         }
+        window.history.pushState('', '', `photographer.html?id=${prevVid.id}`)
+        break
+      } else {
+        const prevImg = SectionAllImg[i - 1]
+        const newImg = document.createElement('img')
+        const lightboxAllVideo = document.querySelectorAll('.lightbox_vid')
+        for (let o = 0; o < lightboxAllVideo.length; o++) {
+          const lightboxVideo = lightboxAllVideo[o]
+          lightboxVideo.style.visibility = 'hidden'
+        }
+        newImg.setAttribute('src', prevImg.src)
+        newImg.setAttribute('class', 'lightbox_img')
+        newImg.setAttribute('id', prevImg.id)
+        lightBox.appendChild(newImg)
+        window.history.pushState('', '', `photographer.html?id=${prevImg.id}`)
+        break
       }
     }
   }
