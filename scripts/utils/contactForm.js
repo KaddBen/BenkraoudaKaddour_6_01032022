@@ -13,11 +13,12 @@ function closeLightboxModal() {
 }
 
 function sendForm() {
-    const allInputText = document.querySelectorAll("input[type='text']")
+const allInputText = document.querySelectorAll("input[type='text']")
 console.log(allInputText[0].value);
 console.log(allInputText[1].value);
 console.log(allInputText[2].value);
 console.log(document.querySelector(".message_label").value);
+
 }
 
 

@@ -67,9 +67,6 @@ function displayMedia(media, user) {
 
     const {image, likes, title, video, id} = media;
     const { name } = user;
-   
-   
-   
     const divImg = document.createElement('div');
     divImg.setAttribute("class", "media")
     divImg.setAttribute("tabindex", "0")
@@ -84,6 +81,8 @@ function displayMedia(media, user) {
     spanLikes1.innerText= likes;
     const icon = document.createElement('i');
     icon.setAttribute("class", "fa-solid fa-heart");
+    icon.setAttribute("tabindex", "0");
+    icon.setAttribute("aria-label", "likes");
     if (video) {
             const video1 = `assets/images/${name}/${video}`;
             const vid = document.createElement( 'video' );
@@ -113,5 +112,3 @@ function displayMedia(media, user) {
 }
 return { name, picture,  city, country, tagline, price, getUserCardDOM, greyData, displayMedia };
 };
-
-    

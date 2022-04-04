@@ -43,24 +43,7 @@
       <div class="photographer_section2" id="photographer_section2"></div>
     </main>
 
-    <dialog class="lightbox">
-      <img
-        src="assets/icons/close_lightbox.svg"
-        onclick="closeLightboxModal()"
-        class="lightbox_close"
-      />
-      <i
-        class="fa-solid fa-angle-left"
-        onclick="prev()"
-        name="Previous image"
-        tabindex="0"
-      ></i>
-      <i
-        class="fa-solid fa-angle-right"
-        onclick="next()"
-        name="Next image"
-        tabindex="0"
-      ></i>
+    <dialog class="lightbox" role="application" tabindex="0"  aria-label="image closeup view">
     </dialog>
 
     <div
@@ -81,7 +64,8 @@
             <img src="assets/icons/close.svg" onclick="closeModal()" />
           </button>
         </header>
-        <form>
+        <form  
+        >
           <div>
             <label class="first_label" for="First_name">Prénom</label>
             <input type="text" id="First_name" name="FirstName" />
@@ -96,9 +80,8 @@
               name="Your message"
             ></textarea>
           </div>
-          <button class="contact_button" name="Send" onclick="sendForm()">
-            Envoyer
-          </button>
+          <input type="submit" class="contact_button" name="Send"/>
+           <span class="sent">Votre message à bien été envoyé</span>
         </form>
       </div>
     </div>
