@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/photographer.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8" />
+    <link rel="shortcut icon"  href="assets/icons/favicon.ico" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
       href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
@@ -43,14 +44,14 @@
       <div class="photographer_section2" id="photographer_section2"></div>
     </main>
 
-    <dialog class="lightbox" role="application" tabindex="0"  aria-label="image closeup view">
-    </dialog>
+    <div class="lightbox"  role="application" tabindex="0"  aria-label="image closeup view">
+    </div>
 
     <div
       id="contact_modal"
-      name="Contact me Mimi Keel"
       aria-labelledby="contact_name"
       tabindex="0"
+      role="dialog"
     >
       <div class="modal" tabindex="0">
         <header>
@@ -61,24 +62,32 @@
             name="Close Contact Form"
             tabindex="0"
           >
-            <img src="assets/icons/close.svg" onclick="closeModal()" />
+            <img src="assets/icons/close.svg" onclick="closeModal()" alt="Close Contact form"/>
           </button>
         </header>
-        <form  
+        <form 
         >
           <div>
+            <div class="formData">
             <label class="first_label" for="First_name">Prénom</label>
-            <input type="text" id="First_name" name="FirstName" />
+            <input type="text" class="text-control" id="First_name" name="First_Name" />
+            </div>
+            <div class="formData">
             <label for="Last_name">Nom</label>
-            <input type="text" id="Last_name" name="Last_name" />
+            <input type="text" class="text-control" id="Last_name" name="Last_name" />
+            </div>
+            <div class="formData">
             <label for="Mail">Email</label>
-            <input type="text" id="Mail" name="Email" />
+            <input type="text" class="text-control" id="Mail" name="Email" />
+            </div>
+            <div class="formData">
             <label for="Message">Votre message</label>
             <textarea
               class="message_label"
               id="Message"
               name="Your message"
             ></textarea>
+            </div>
           </div>
           <input type="submit" class="contact_button" name="Send"/>
            <span class="sent">Votre message à bien été envoyé</span>
