@@ -406,3 +406,10 @@ form input {
   visibility: hidden;
   text-align: center;
 }
+
+@media screen and (max-width: 1080px) {
+  .photographer_section2 div {
+    height: 75%;
+    margin-bottom: -3rem;
+  }
+}
