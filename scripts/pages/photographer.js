@@ -622,7 +622,7 @@ const { medias } = getMedia();
 if (responseId) {
     /* Résumé de l'utilisateur dans la pages des photographes */
     const userSection = document.querySelector(".photograph-header");
-    const userCard =  photographerFactory("none").greyData(responseId);
+    const userCard = photographerFactory("none").greyData(responseId);
     const { image, info } = userCard;
     userSection.appendChild(image);
     userSection.appendChild(info);
@@ -630,7 +630,7 @@ if (responseId) {
     const userSection2 = document.querySelector(".photographer_section2");
     medias.forEach((media) => {
         if (media.photographerId == id) {
-            const userMedia =  photographerFactory("none").displayMedia(
+            const userMedia = photographerFactory("none").displayMedia(
                 media,
                 responseId
             );
@@ -913,8 +913,7 @@ div.forEach((div) => {
     const child = div.childNodes[1];
     child.addEventListener("click", () => {
         const likeNumber = div.childNodes[0];
-
-        parseInt((likeNumber.textContent += 1));
+        parseInt(likeNumber.innerText++);
         totalLikes.innerHTML =
       `${parseInt((totalSum += 1))} ` + "<i class=\"fa-solid fa-heart\"></i>";
     });
@@ -1000,7 +999,7 @@ function sortingValue() {
     const sortArPopular = arPopular.sort((a, b) => a - b);
     const sortedArPopular = [];
     sortArPopular.forEach((number) => {
-        for (let z = 0; z < arrayMedia.length; z += 1) {
+        for (let z = 0; z < arrayMedia.length; z++) {
             const item = arrayMedia[z];
             const likeChildren = item.children[1].children[1].children[0].textContent;
             const likeChildrenNumber = Number(likeChildren);
@@ -1010,14 +1009,20 @@ function sortingValue() {
         }
     });
     if (select.value === "1") {
-        secondPhotagrapherSection.append(...sortedArPopular.reverse());
+        for (let i = 0; i < sectionAllDiv.length; i++) {
+            sectionAllDiv[i].remove();
+        }
+        sortedArPopular.reverse().forEach((article) => {
+            secondPhotagrapherSection.appendChild(article);
+        });
     }
-    /* Tri les valeurs du tableau contenant le nombre de like dans l'ordre décroissant */
+
+    /* Tri les valeurs du tableau par date dans l'ordre décroissant */
     if (select.value === "2") {
         const arDate = [];
         const arArticle = [];
         medias.forEach((media) => {
-            for (let i = 0; i < SectionAllImg.length; i += 1) {
+            for (let i = 0; i < SectionAllImg.length; i++) {
                 const idDate = SectionAllImg[i].id;
 
                 if (media.id === Number(idDate)) {
@@ -1025,27 +1030,34 @@ function sortingValue() {
                 }
             }
         });
-        /* Tri les valeurs du tableau contenant le nombre de like dans l'ordre décroissant */
         const sortDate = arDate.sort((a, b) => new Date(a) - new Date(b));
-        medias.forEach((media) => {
-            for (let i = 0; i < sortDate.length; i += 1) {
-                const item = sortDate[i];
+        const reverseSortDate = sortDate.reverse();
+        for (let i = 0; i < reverseSortDate.length; i++) {
+            medias.forEach((media) => {
+                const item = reverseSortDate[i];
                 const dateMedia = media.date;
-
                 if (dateMedia === item) {
-                    for (let i = 0; i < SectionAllImg.length; i += 1) {
+                    console.log(reverseSortDate[i]);
+                    for (let i = 0; i < SectionAllImg.length; i++) {
                         const bId = SectionAllImg[i].id;
                         const mediaId = media.id;
 
                         const parentImg = SectionAllImg[i].parentNode;
-                        if (mediaId === Number(bId)) {
+                        if (mediaId === parseInt(bId)) {
                             arArticle.push(parentImg);
+                            console.log(arArticle);
                         }
                     }
                 }
-            }
+            });
+        }
+
+        for (let i = 0; i < sectionAllDiv.length; i++) {
+            sectionAllDiv[i].remove();
+        }
+        arArticle.forEach((article) => {
+            secondPhotagrapherSection.appendChild(article);
         });
-        secondPhotagrapherSection.appendChild(...arArticle);
     }
     /* Recupere les titres de chaque image et les places dans un tableau */
     const arTitle = [];
@@ -1058,7 +1070,7 @@ function sortingValue() {
     const sorTitle = arTitle.sort();
     const titleArticle = [];
     sorTitle.forEach((title) => {
-        for (let i = 0; i < arrayMedia.length; i += 1) {
+        for (let i = 0; i < arrayMedia.length; i++) {
             const elementAr = arrayMedia[i].children[1].children[0].textContent;
 
             if (title === elementAr) {
@@ -1421,7 +1433,6 @@ function validate() {
     const nicknameValue = nickname.value.trim();
     const nameValue = name1.value.trim();
     const emailValue = email.value.trim();
-
 
     if (!nicknameValue) {
         setError(nickname, 0);
