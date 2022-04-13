@@ -296,21 +296,20 @@ form input {
 .lightbox {
   border: none;
   position: fixed;
-  right: 20%;
+  margin-left: 20%;
   top: 2rem;
   border-radius: 5px;
   background-color: white !important;
-  width: 43rem;
-  padding: 21rem 5rem 21rem 3rem;
-  margin: auto;
+  width: 45%;
+  padding: 23% 7% 23% 5%;
   display: none;
   overflow: hidden;
 }
 
 .lightbox_img {
   border-radius: 5px;
-  width: 695px;
-  height: 690px;
+  width: 100%;
+  height: 100%;
   visibility: visible;
   object-fit: cover;
 }
@@ -319,8 +318,8 @@ form input {
   top: 5%;
   left: 7%;
   border-radius: 5px;
-  width: 695px;
-  height: 600px;
+  width: 85%;
+  height: 90%;
   visibility: visible;
   overflow: hidden;
 }
@@ -337,7 +336,7 @@ form input {
 .lightbox_close {
   z-index: 6;
   position: absolute;
-  width: 22px;
+  width: 2.8%;
   top: 7%;
   right: 3%;
   fill: #901c1c !important;
@@ -411,5 +410,29 @@ form input {
   .photographer_section2 div {
     height: 75%;
     margin-bottom: -2rem;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .lightbox {
+    min-width: 400px;
+    min-height: 100px;
+  }
+
+  .fa-solid.fa-angle-left {
+    position: absolute;
+    font-size: 30px;
+    top: 50%;
+    left: 2%;
+    color: #901c1c;
+  }
+
+  .fa-solid.fa-angle-right {
+    position: absolute;
+    font-size: 30px;
+    top: 50%;
+    right: 3%;
+    color: #901c1c;
+    z-index: 6;
   }
 }
