@@ -881,7 +881,6 @@ sectionAllDiv.forEach((div) => {
         }
     });
 });
-
 let i;
 
 /* Affiche le nom du photographe selectionné dans le formulaire d'envoi */
@@ -919,22 +918,21 @@ div.forEach((div) => {
     });
 });
 // Incrémente le nombre likes au clic ainsi que son nombre total en bas de page
-
+const lightBox = document.querySelector(".lightbox");
 div.forEach((div) => {
     const child = div.childNodes[1];
-
     child.addEventListener("keydown", (e) => {
         if (e.keyCode === 32) {
             const likeNumber = div.childNodes[0];
-            parseInt((likeNumber.textContent += 1));
+            parseInt(likeNumber.textContent++);
             totalLikes.innerHTML =
         `${parseInt((totalSum += 1))} ` + "<i class=\"fa-solid fa-heart\"></i>";
+            setTimeout("closeLightboxModal()", 0.0000000000001);
         }
     });
 });
 
 /* Change l'image de la lightbox à l'aide du clavier */
-const lightBox = document.querySelector(".lightbox");
 
 /* Custom Select */
 document.querySelectorAll(".select_container").forEach(setupSelector);
