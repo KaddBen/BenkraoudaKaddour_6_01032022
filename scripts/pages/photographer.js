@@ -1,6 +1,7 @@
 /*global sendForm*/
 /*global closeLightboxModal*/
 /*global photographerFactory*/
+/*global displayModal*/
 /*eslint no-undef: "error"*/
 function getPhotographers() {
     const photographers = [
@@ -607,7 +608,7 @@ function getMedia() {
         medias: [...medias],
     };
 }
-//Variable  designant la lightbox-modal
+
 const dialog = document.querySelector(".lightbox");
 /* Recuperation de l'id dans la barre de recherche */
 
@@ -638,7 +639,7 @@ if (responseId) {
         }
     });
 } else {
-    window.location.replace("http://127.0.0.1:5501/error/error.html");
+    window.location.replace("/error/error.html");
 }
 
 /* Affiche la lightbox avec une image ou une video en fonction du media */
@@ -888,6 +889,26 @@ const nameForm = responseId.name.toString();
 const name_form = document.querySelector(".form_h2");
 name_form.innerHTML = "Contactez moi" + `<br>${nameForm}`;
 
+/*Place le focus sur le formulaire lorsque l'on appuie sur le bouton a l'aide du clavier */
+const ButtonForm = document.querySelectorAll(".contact_button");
+const closeButton = document.querySelector(".close_form");
+const contactForm = document.querySelector(".modal");
+
+ButtonForm[0].addEventListener("keyup", (e) => {
+    e.preventDefault();
+    if (e.keyCode === 32 || e.keyCode === 13) {
+        displayModal();
+        contactForm.focus();
+    }
+});
+
+ButtonForm[1].addEventListener("keydown", (e) => {
+    if (e.keyCode === 9) {
+        closeButton.focus();
+        e.preventDefault();
+    }
+});
+
 /* Fais la somme de tous les likes en fonction du photographe selectionné (id) */
 
 const numberLikes = [];
@@ -922,17 +943,17 @@ const lightBox = document.querySelector(".lightbox");
 div.forEach((div) => {
     const child = div.childNodes[1];
     child.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 || e.keyCode === 13) {
             const likeNumber = div.childNodes[0];
             parseInt(likeNumber.textContent++);
             totalLikes.innerHTML =
         `${parseInt((totalSum += 1))} ` + "<i class=\"fa-solid fa-heart\"></i>";
-            setTimeout("closeLightboxModal()", 0.0000000000001);
+            setTimeout("closeLightboxModal()", 0.00000000000000000000000001);
+            div.focus();
+            return e.keyCode !== 32;
         }
     });
 });
-
-/* Change l'image de la lightbox à l'aide du clavier */
 
 /* Custom Select */
 document.querySelectorAll(".select_container").forEach(setupSelector);
@@ -1035,7 +1056,6 @@ function sortingValue() {
                 const item = reverseSortDate[i];
                 const dateMedia = media.date;
                 if (dateMedia === item) {
-                    console.log(reverseSortDate[i]);
                     for (let i = 0; i < SectionAllImg.length; i++) {
                         const bId = SectionAllImg[i].id;
                         const mediaId = media.id;
@@ -1043,7 +1063,6 @@ function sortingValue() {
                         const parentImg = SectionAllImg[i].parentNode;
                         if (mediaId === parseInt(bId)) {
                             arArticle.push(parentImg);
-                            console.log(arArticle);
                         }
                     }
                 }
@@ -1082,8 +1101,8 @@ function sortingValue() {
     }
 }
 
-/* Conserve le focus seulement dans la lightbox lors de la navigation au clavier  et permet d'aller a l'image precedente ou suivante en appuyant sur la touche espace */
-console.log(dialog);
+/* Conserve le focus seulement dans la lightbox lors de la navigation au clavier  et permet d'aller a l'image precedente ou suivante
+ en appuyant sur la touche espace,entrée ou en utilisant les fleches directionelles */
 dialog.addEventListener("keydown", (e) => {
     const firstFocusableElement = document.querySelector(".lightbox_close");
     const lastFocusableElement = document.querySelector(
@@ -1093,18 +1112,18 @@ dialog.addEventListener("keydown", (e) => {
     const vid = document.querySelector("lightbox_vid");
 
     firstFocusableElement.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 || e.keyCode === 13) {
             closeLightboxModal();
         }
     });
     arrowleft.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 || e.keyCode === 13) {
             prev();
             e.stopImmediatePropagation();
         }
     });
     lastFocusableElement.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 || e.keyCode === 13) {
             next();
             e.stopImmediatePropagation();
         }
@@ -1356,7 +1375,6 @@ function setSucess(element) {
 //Affiche un message d'erreur
 
 function setError(element, number) {
-    console.log(element.id);
     const inputControl = element.parentElement;
     if (inputControl) inputControl.setAttribute("data-error-visible", "true");
 
@@ -1472,7 +1490,6 @@ function confirmation() {
         "div[data-error-visible='false']"
     );
     if (allDataErrorVisible.length === formData.length) {
-        console.log("Pas d'erreur");
         sendForm();
         Sent.style.visibility = "visible";
         name_form.style.visibility = "hidden";
