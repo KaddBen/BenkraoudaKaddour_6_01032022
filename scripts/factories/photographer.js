@@ -1,8 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 function photographerFactory(data) {
-    const { name, portrait, city, country, tagline, price, id } =
-    data;
-
+    const { name, portrait, city, country, tagline, price, id } = data;
     const picture = `assets/photographers/${portrait}`;
     // Affiche chaque photographe dans la page d'index
     function getUserCardDOM() {

@@ -901,7 +901,8 @@ ButtonForm[0].addEventListener("keyup", (e) => {
     }
 });
 
-ButtonForm[1].addEventListener("keydown", (e) => {
+const sendButton = document.querySelector(".send_button");
+sendButton.addEventListener("keydown", (e) => {
     if (e.keyCode === 9) {
         closeButton.focus();
         e.preventDefault();
@@ -956,6 +957,7 @@ div.forEach((div) => {
 
 /* Custom Select */
 document.querySelectorAll(".select_container").forEach(setupSelector);
+
 function setupSelector(selector) {
     selector.addEventListener("mousedown", (e) => {
         if (window.innerWidth >= 420) {
@@ -997,22 +999,92 @@ function setupSelector(selector) {
             });
         }
     });
+
+    selector.addEventListener("keydown", (e) => {
+        if (window.innerWidth >= 420) {
+            // override look for non mobile
+            if (e.keyCode === 32 || e.keyCode === 13) {
+                e.preventDefault();
+                const select = selector.children[1];
+                const dropDown = document.createElement("ul");
+                dropDown.setAttribute("tabindex", "0");
+                dropDown.setAttribute("role", "application");
+                const arrowUp = document.createElement("i");
+                arrowUp.setAttribute("class", "fa-solid fa-angle-up");
+                dropDown.className = "selector-options";
+                [...select.children].forEach((option) => {
+                    const dropDownOption = document.createElement("li");
+                    dropDownOption.setAttribute("class", "border_white_bottom");
+                    dropDownOption.setAttribute("tabindex", "0");
+                    dropDownOption.setAttribute("aria-label", option.innerText);
+                    dropDownOption.textContent = option.textContent;
+                    dropDownOption.addEventListener("keydown", (e) => {
+                        if (e.keyCode === 32 || e.keyCode === 13) {
+                            e.stopPropagation();
+                            select.value = option.value;
+                            selector.value = option.value;
+                            select.dispatchEvent(new Event("change"));
+                            selector.dispatchEvent(new Event("change"));
+                            dropDown.remove();
+                        }
+                        allList[2].addEventListener("keydown", (e) => {
+                            console.log(allList);
+                            if (e.keyCode === 9) {
+                                allList[0].focus();
+                                e.preventDefault();
+                            }
+                        });
+                    });
+                    dropDown.appendChild(dropDownOption);
+                    dropDown.appendChild(arrowUp);
+                    dropDown.focus();
+                });
+
+                selector.appendChild(dropDown);
+                const allList = document.querySelectorAll(".border_white_bottom");
+                const allOption = document.querySelectorAll("option");
+                const lastOption = allList.item(allOption.length - 1);
+                lastOption.setAttribute("class", "last_option");
+                // handle click out
+                document.addEventListener("click", (e) => {
+                    if (!selector.contains(e.target)) {
+                        dropDown.remove();
+                    }
+                });
+            }
+        }
+    });
 }
+
+window.addEventListener("keydown", (e) => {
+    if (document.activeElement === select) {
+        if (e.keyCode === 32 || e.keyCode === 13) {
+            const allList = document.querySelectorAll(".border_white_bottom");
+            allList[0].focus();
+        }
+    }
+});
+const allOption = document.querySelectorAll("li");
+allOption.forEach((li) => {
+    li.setAttribute("tabindex", "0");
+});
+
 const select = document.querySelector("select");
 select.onchange = sortingValue;
 const secondPhotagrapherSection = document.querySelector(
     ".photographer_section2"
 );
-/* Recupère le nombre de like de chaque image et les place dans un tableau */
-const arrayMedia = Array.from(secondPhotagrapherSection.children);
-const arPopular = new Array();
-for (const item of arrayMedia) {
-    const likeChildren = item.children[1].children[1].children[0].textContent;
-    const likeChildrenNumber = Number(likeChildren);
-    arPopular.push(likeChildrenNumber);
-}
+
 /* Tri les valeurs du tableau contenant le nombre de like dans l'ordre décroissant */
 function sortingValue() {
+    /* Recupère le nombre de like de chaque image et les place dans un tableau */
+    const arrayMedia = Array.from(secondPhotagrapherSection.children);
+    const arPopular = new Array();
+    for (const item of arrayMedia) {
+        const likeChildren = item.children[1].children[1].children[0].textContent;
+        const likeChildrenNumber = Number(likeChildren);
+        arPopular.push(likeChildrenNumber);
+    }
     const sortArPopular = arPopular.sort((a, b) => a - b);
     const sortedArPopular = [];
     sortArPopular.forEach((number) => {
@@ -1364,14 +1436,15 @@ allVideo.forEach((video) => {
     video.setAttribute("tabindex", "0");
 });
 
-const SubmitBtn = document.getElementsByName("Send");
 const Sent = document.querySelector(".sent");
 const MessageForm = document.querySelector("textarea");
 const allLabel = document.querySelectorAll("label");
 const firstName = document.getElementById("First_name");
 const lastName = document.getElementById("Last_name");
 const mail = document.getElementById("Mail");
-SubmitBtn[0].addEventListener("click", (e) => {
+const selectContainer = document.querySelector(".select_container");
+
+sendButton.addEventListener("click", (e) => {
     e.preventDefault();
     validate();
 });
@@ -1508,5 +1581,7 @@ function confirmation() {
         firstName.style.visibility = "hidden";
         mail.style.visibility = "hidden";
         MessageForm.style.visibility = "hidden";
+        sendButton.style.visibility = "hidden";
+        selectContainer.style.visibility = "visible";
     }
 }

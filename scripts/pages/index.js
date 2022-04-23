@@ -63,9 +63,9 @@ async function getPhotographers() {
         photographers: [...photographers],
     };
 }
-
+const photographersSection = document.querySelector(".photographer_section");
 async function displayData(photographers) {
-    const photographersSection = document.querySelector(".photographer_section");
+    
 
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);
@@ -80,3 +80,18 @@ async function init() {
     displayData(photographers);
 }
 init();
+
+// eslint-disable-next-line no-unused-vars
+function link () {
+    const Links = photographersSection.children;
+    Array.from(Links);
+    for (const item of Links) {
+        const link = item.children[0];
+        link.addEventListener("keydown", (e) => {
+            if (e.keyCode === 32 || e.keyCode === 13) {
+                window.location.replace(`${link.href}`);
+            }
+        });
+    }
+}
+setTimeout("link()", 1);

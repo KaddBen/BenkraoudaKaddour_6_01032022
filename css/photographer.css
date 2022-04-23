@@ -21,6 +21,12 @@ img:focus {
 i:focus {
   background-color: #db8876;
 }
+li:focus {
+  background-color: #db8876;
+}
+ul:focus {
+  background-color: #db8876;
+}
 
 select:focus {
   outline: #312e2e;
@@ -29,6 +35,43 @@ select:focus {
   box-sizing: border-box;
   border-color: #312e2e;
 }
+button:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  box-sizing: border-box;
+  border-color: #312e2e;
+}
+video:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  box-sizing: border-box;
+  border-color: #312e2e;
+}
+
+label:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  box-sizing: border-box;
+  border-color: #312e2e;
+}
+
+input:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  border-color: #312e2e;
+}
+
+textarea:focus {
+  outline: #312e2e !important;
+  border: ridge !important;
+  border-style: ridge !important;
+  border-color: #312e2e !important;
+}
+
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
@@ -117,6 +160,19 @@ select:focus {
 }
 
 .contact_button {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 11px;
+  width: 170px;
+  height: 70px;
+  border: none;
+  background-color: #901c1c;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.send_button {
   font-size: 20px;
   font-weight: bold;
   color: white;
