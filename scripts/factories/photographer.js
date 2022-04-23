@@ -70,7 +70,7 @@ function photographerFactory(data) {
         const { name } = user;
         const divImg = document.createElement("div");
         divImg.setAttribute("class", "media");
-        divImg.setAttribute("tabindex", "0");
+        divImg.setAttribute("tabindex", "-1");
         const divLikes = document.createElement("div");
         divLikes.setAttribute("class", "like_container");
         const spanLikes = document.createElement("span");
@@ -100,6 +100,7 @@ function photographerFactory(data) {
             img.setAttribute("id", id);
             img.setAttribute("name", "img_photographer");
             img.setAttribute("href", `photographer.html?id=${id}`);
+            img.setAttribute("tabindex", "0");
             img.setAttribute("alt", title);
             divImg.appendChild(img);
         }

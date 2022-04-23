@@ -608,7 +608,7 @@ function getMedia() {
         medias: [...medias],
     };
 }
-
+const SectionAllDiv = document.querySelectorAll("media");
 const dialog = document.querySelector(".lightbox");
 /* Recuperation de l'id dans la barre de recherche */
 
@@ -756,11 +756,10 @@ SectionAllImg.forEach((img) => {
     });
 });
 
-const sectionAllDiv = document.querySelectorAll(".media");
-sectionAllDiv.forEach((div) => {
+SectionAllImg.forEach((div) => {
     div.addEventListener("keydown", (e) => {
-        if (e.keyCode === 32) {
-            const divImg = div.firstChild;
+        if (e.keyCode === 32 || e.keyCode === 13) {
+            const divImg = div;
             const imgId = divImg.id;
             const mediaId = medias.find((media) => media.id.toString() === imgId);
             const { name } = responseId;
@@ -938,7 +937,7 @@ div.forEach((div) => {
       `${parseInt((totalSum += 1))} ` + "<i class=\"fa-solid fa-heart\"></i>";
     });
 });
-// Incrémente le nombre likes au clic ainsi que son nombre total en bas de page
+// Incrémente le nombre likes au clavier ainsi que son nombre total en bas de page
 const lightBox = document.querySelector(".lightbox");
 div.forEach((div) => {
     const child = div.childNodes[1];
@@ -957,7 +956,6 @@ div.forEach((div) => {
 
 /* Custom Select */
 document.querySelectorAll(".select_container").forEach(setupSelector);
-
 function setupSelector(selector) {
     selector.addEventListener("mousedown", (e) => {
         if (window.innerWidth >= 420) {
@@ -1000,21 +998,21 @@ function setupSelector(selector) {
         }
     });
 }
-/* Recupère le nombre de like de chaque image et les place dans un tableau */
-const arPopular = [];
+const select = document.querySelector("select");
+select.onchange = sortingValue;
 const secondPhotagrapherSection = document.querySelector(
     ".photographer_section2"
 );
+/* Recupère le nombre de like de chaque image et les place dans un tableau */
 const arrayMedia = Array.from(secondPhotagrapherSection.children);
+const arPopular = new Array();
 for (const item of arrayMedia) {
     const likeChildren = item.children[1].children[1].children[0].textContent;
     const likeChildrenNumber = Number(likeChildren);
     arPopular.push(likeChildrenNumber);
 }
-const select = document.querySelector("select");
-select.onchange = sortingValue;
+/* Tri les valeurs du tableau contenant le nombre de like dans l'ordre décroissant */
 function sortingValue() {
-    /* Tri les valeurs du tableau contenant le nombre de like dans l'ordre décroissant */
     const sortArPopular = arPopular.sort((a, b) => a - b);
     const sortedArPopular = [];
     sortArPopular.forEach((number) => {
@@ -1027,15 +1025,25 @@ function sortingValue() {
             }
         }
     });
+
     if (select.value === "1") {
-        for (let i = 0; i < sectionAllDiv.length; i++) {
-            sectionAllDiv[i].remove();
+        for (let i = 0; i < SectionAllDiv.length; i++) {
+            SectionAllDiv[i].remove();
         }
         sortedArPopular.reverse().forEach((article) => {
             secondPhotagrapherSection.appendChild(article);
         });
     }
-
+    sortArPopular.forEach((number) => {
+        for (let z = 0; z < arrayMedia.length; z++) {
+            const item = arrayMedia[z];
+            const likeChildren = item.children[1].children[1].children[0].textContent;
+            const likeChildrenNumber = Number(likeChildren);
+            if (number === likeChildrenNumber) {
+                sortedArPopular.push(item);
+            }
+        }
+    });
     /* Tri les valeurs du tableau par date dans l'ordre décroissant */
     if (select.value === "2") {
         const arDate = [];
@@ -1069,8 +1077,8 @@ function sortingValue() {
             });
         }
 
-        for (let i = 0; i < sectionAllDiv.length; i++) {
-            sectionAllDiv[i].remove();
+        for (let i = 0; i < SectionAllDiv.length; i++) {
+            SectionAllDiv[i].remove();
         }
         arArticle.forEach((article) => {
             secondPhotagrapherSection.appendChild(article);
@@ -1135,7 +1143,7 @@ dialog.addEventListener("keydown", (e) => {
             e.preventDefault();
         }
     }
-    if (document.activeElement === sectionAllDiv[sectionAllDiv.length - 1]) {
+    if (document.activeElement === SectionAllImg[SectionAllImg.length - 1]) {
         lightBox.focus();
     }
 
@@ -1353,7 +1361,7 @@ function prev() {
 /* Active la fonction sendform() et affiche un message de validation lors du submit */
 const allVideo = document.querySelectorAll("video");
 allVideo.forEach((video) => {
-    video.setAttribute("tabindex", "-1");
+    video.setAttribute("tabindex", "0");
 });
 
 const SubmitBtn = document.getElementsByName("Send");

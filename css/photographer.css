@@ -10,6 +10,25 @@ div:focus {
   color: #901c1c;
   outline: #312e2e;
 }
+img:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  box-sizing: border-box;
+  border-color: #312e2e;
+}
+
+i:focus {
+  background-color: #db8876;
+}
+
+select:focus {
+  outline: #312e2e;
+  border: ridge;
+  border-style: ridge;
+  box-sizing: border-box;
+  border-color: #312e2e;
+}
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
